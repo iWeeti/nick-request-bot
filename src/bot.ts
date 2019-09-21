@@ -1,4 +1,10 @@
-import Discord, { Message } from "discord.js";
+import {
+    Client,
+    Message,
+    RichEmbed,
+    TextChannel,
+    GuildMember,
+} from "discord.js";
 import config from "../config.json";
 
 if (
@@ -16,7 +22,7 @@ if (
     console.error("YOU NEED TO SPECIFY A VERIFICATION CHANNEL ID");
 }
 
-const client = new Discord.Client();
+const client = new Client();
 
 client.on("ready", () => {
     console.log(`Ready on: ${client.user.tag} (${client.user.id})`);
@@ -40,7 +46,7 @@ client.on("message", m => {
     if (command === "request") {
         let already = false;
         const channel = m.guild.channels.get(config.verificationChannelID);
-        if (channel && channel instanceof Discord.TextChannel) {
+        if (channel && channel instanceof TextChannel) {
             channel
                 .fetchMessages({
                     limit: 100,
@@ -63,7 +69,7 @@ client.on("message", m => {
                 `You already have a pending request. Wait for that to verify or contact the server staff.`,
             );
 
-        const e = new Discord.RichEmbed();
+        const e = new RichEmbed();
         e.setTitle("Nick Request");
         e.setAuthor(m.author.tag, m.author.displayAvatarURL);
         e.setColor(m.member.displayColor);
@@ -72,9 +78,9 @@ client.on("message", m => {
         e.setFooter(m.author.id);
 
         const c = m.guild.channels.get(config.verificationChannelID);
-        if (c && c instanceof Discord.TextChannel) {
+        if (c && c instanceof TextChannel) {
             c.send(e).then(async m => {
-                if (m instanceof Discord.Message) {
+                if (m instanceof Message) {
                     let emoji = m.guild.emojis.get(config.approveEmoji);
                     console.log(emoji);
                     await m.react(
@@ -95,7 +101,7 @@ client.on("messageReactionAdd", (r, u) => {
     if (u.bot) return;
     if (r.message.channel.id !== config.verificationChannelID) return;
 
-    const m: Discord.GuildMember | undefined = r.message.guild.members.get(
+    const m: GuildMember | undefined = r.message.guild.members.get(
         r.message.embeds[0].footer.text,
     );
     if (m === undefined) return;
