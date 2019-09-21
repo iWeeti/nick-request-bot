@@ -21,7 +21,7 @@ Run `npm i` to install the dependencies. **RUN THIS ONLY ONCE**
 Then run `npm start` to start the bot.
 
 ## Commands
-request <name>
-> <required> [optional]
+request \<name\>
+> \<required\> [optional]
 
 > It spams some random errors when you approve or decline and I don't know what causes them...
