@@ -16,3 +16,5 @@ Add `config.json` to the root directory with the content:
 ```
 
 Then run `npm start` to start the bot.
+
+> It spams some random errors when you approve or decline and I don't know what causes them...
