@@ -70,18 +70,17 @@ client.on("message", m => {
 
         const c = m.guild.channels.get(config.verificationChannelID);
         if (c && c instanceof Discord.TextChannel) {
-            c.send(e).then(m => {
+            c.send(e).then(async m => {
                 if (m instanceof Discord.Message) {
                     let emoji = m.guild.emojis.get(config.approveEmoji);
                     console.log(emoji);
-                    m.react(
+                    await m.react(
                         emoji !== undefined ? emoji : config.approveEmoji,
-                    ).then(v => {
-                        emoji = m.guild.emojis.get(config.declineEmoji);
-                        m.react(
-                            emoji !== undefined ? emoji : config.declineEmoji,
-                        );
-                    });
+                    );
+                    emoji = m.guild.emojis.get(config.declineEmoji);
+                    await m.react(
+                        emoji !== undefined ? emoji : config.declineEmoji,
+                    );
                 }
             });
         }
