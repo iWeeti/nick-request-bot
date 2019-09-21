@@ -58,7 +58,10 @@ client.on("message", m => {
                 });
         }
 
-        if (already) return;
+        if (already)
+            return m.reply(
+                `You already have a pending request. Wait for that to verify or contact the server staff.`,
+            );
 
         const e = new Discord.RichEmbed();
         e.setTitle("Nick Request");
